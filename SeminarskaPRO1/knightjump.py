@@ -1,51 +1,41 @@
-import queue #rabimo queue tipa FIFO(First in first out), ki deluje po principu prvi noter prvi vn.
-#Vrne elemente po istem vrstnem redu, v keterem so bili dodani, sepravi prioriteto ima element,
-#ki je bil dodan prvi.
-
+import queue #queue tipa FIFO(First in first out), ki deluje po principu prvi noter prvi vn.
+#Vrne elemente po istem vrstnem redu, v keterem so bili dodani. Uporabimo ker delati s tabelami je 
+#malo počasneje https://www.geeksforgeeks.org/queue-in-python/ 
 n = int(input())
 sahovnica = []
-for i in range(n):
-    vrstica = input()
-    sahovnica.append([*vrstica])#https://www.geeksforgeeks.org/python-split-string-into-list-of-characters/
-   
+for i in range(n):  #shranimo nize v "n" parih
+    niz = input()
+    vrstica = []
+    for znak in niz:
+        vrstica.append(znak)
+    sahovnica.append(vrstica)
+    
 
 
-def mozni_premiki(v,s):
-    "Preveri vse možne poteze od trenutnega mesta"
-    mozne_poteze = [(v+2,s+1),(v+2,s-1),(v-2,s+1),(v-2,s-1),(v+1,s+2),(v+1,s-2),(v-1,s+2),(v-1,s-2)]
-    return [(v,s) for v,s in mozne_poteze if 0 <= v < n and 0 <= s < n and sahovnica[v][s] != "#"] 
-                                                                        
-
-def BFS_algoritem(n):
-    """Breath first search algoritem, je algoritem, ki najde najkrajšo pot v nekem drevesu,
-       kjer točke v drevesu nimajo 'cene'. Naprej obišče začetno točko potem pa vse možne 'sosede'
-       (z zgornjimi omejitvami) in potem 'sosede' teh sosedov itd... dokler ne pridemo do željene točke,
-       če pa nemoremo pa izpišemo '-1'.Vemo, da je najkrajša pot, ker gremo po vrstnem redu vseh možnih potez"""
+def BFS_algoritem(sahovnica):
+    """BFS algoritem ali Breadth First Search algoritem. Vrne število potez za
+    najkrajšo pot do cilja, če cilj ni dosegljiv izpiše -1"""
     for i in sahovnica:
-        if "K" in i:                                   #Najdemo lokacijo K-ja (zacetni položaj)
+        if "K" in i:                                #Najdemo lokacijo K-ja (zacetni položaj)
             zacetek = sahovnica.index(i), i.index("K")
-   
-    konec = (0,0)
-    obiskano = set()
-    vrstni_red = queue.Queue() #naredimo Queue 
-    vrstni_red.put(zacetek) #dodamo zacetne "kordinate" v queue
-    pot = []
-    while vrstni_red:
-        pot = vrstni_red.get()
-        if konec in pot:
-            return len(pot)
+    cilj = (0,0)
+    vrsta = queue.Queue()
+    vrsta.put((zacetek,0))                          #vzstavimo v queue začetni položaj in število potez
+    obiskano = {zacetek}                            #množica, ki vsebuje že obiskane položaje
+    while vrsta.empty() == False:                   #če je queue prazen se zanka zaključi    
         
-        print(v, s)
-        for poteza in mozni_premiki(v, s):
-           if poteza == None:
-               return -1
-           elif poteza not in obiskano:
-               obiskano.add(poteza)
-               nova_pot = pot + poteza
-               vrstni_red.put(nova_pot)
-        
-print(BFS_algoritem(n))           
-               
+        polozaj, st_potez = vrsta.get()             #vzamemo prvi element  
+        if polozaj == cilj:                         #preverimo če smo na cilju
+            return st_potez
+        v,s = polozaj                   
+        for mv, ms in [(2,1),(2,-1),(-2,1),(-2,-1),(1,2),(1,-2),(-1,2),(-1,-2)]: #možne poteze
+            pv, ps = (v+mv,s+ms)  #od našega položaja probamo vse mozne poteze
             
-        
+            if 0 <= pv < n and 0 <= ps < n and sahovnica[pv][ps] != "#" and (pv,ps) not in obiskano: 
+                vrsta.put(((pv,ps),st_potez+1))     #preverimo če je pravilna poteza(mesto ne vsebuje "#", ni izven "meje",ni bilo že obiskano)
+                obiskano.add((pv,ps))               #če je dodamo ta položaj in število opravljenih potez v queue
+                                                    #dodamo položaj k že obiskanim 
+    return -1          #če nemoremo priti do cilja vrnemo -1
+    
+print(BFS_algoritem(sahovnica))
 #Python Path Finding Tutorial - Breadth First Search Algorithm - https://www.youtube.com/watch?v=hettiSrJjM4 (ideja za kodo)

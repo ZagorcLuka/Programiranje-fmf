@@ -30,7 +30,7 @@ def puscice(z, st):
         naprej += 50
     turtle.exitonclick()
 
-puscice(turtle.Turtle(), 6)
+puscice(turtle.Turtle(), 3)
 
 
 
