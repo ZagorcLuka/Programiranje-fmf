@@ -17,7 +17,7 @@ def vlak():
     for postaja in postaje: #gremo skozi vse postaje in preverimo:
         if st_potnikov < 0:   #-če kdaj št. potnikov pade pod nič
             return "impossible"  #(sproti posodabljamo št. potnikov na vlaku),
-        st_potnikov += postaja[1]  #-če kdaj št. potnikov preseže kapecitete vlaka
+        st_potnikov += postaja[1]  #-če kdaj št. potnikov preseže kapacitete vlaka
         st_potnikov -= postaja[0]  #-in če ima postaja čakajoče potnike, ko vlak ni poln
         if st_potnikov > n[0]:    
             return "impossible"    #Če kakšen pogoj ni izpolnjen, izpišemo "impossible"
@@ -25,6 +25,6 @@ def vlak():
             return "impossible"
     if st_potnikov != 0:  #na koncu še preverimo če je št. potnikov enako nič
         return "impossible"  
-    return "possible"  #če so bili vsi pogoji izpoljeni izpišemo "possible"
+    return "possible"  #če so bili vsi pogoji izpolnjeni izpišemo "possible"
 
 print(vlak())

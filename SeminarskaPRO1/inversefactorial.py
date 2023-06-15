@@ -4,9 +4,9 @@ n = input()
 def fakulteta_n(n):
     "Od razultata n fakultete izračuna število n"
     n_stevke = len(n)
-    if n_stevke < 2:      #če je število malo lahko kar "na dolgo"  
+    if n_stevke < 4:      #če je število pod 4 lahko izračunamo kar "na dolgo"  
         x = 1             #izračunamo n fakultete in primerjamo 
-        N = 1             #razultate z našim n-jem(2.razlog način z logaritmi deluje samo za n>3)
+        N = 1             #razultate z našim n-jem
         while x < int(n):   
             N += 1
             x *= N
@@ -14,7 +14,7 @@ def fakulteta_n(n):
     else:                 #ko je število večje pa uporabimo lastnost logaritmov in sicer
         N = 0             #log(a*b) = log(a) + log(b). Ker je hitreje seštevati logaritme
         stevke = 1        #kot pa računati n!. Uporabimo logaritem z osnovo 10, od koder 
-                          #pridobimo število števk števila(če zaokrožimo navzgor).
+                          #pridobimo število števk števila (če zaokrožimo navzgor).
         while stevke < n_stevke:  #ko prekoračimo število števk danega števila 
             N += 1                #vrnemo iskano število N od N!
             stevke += math.log(N,10)

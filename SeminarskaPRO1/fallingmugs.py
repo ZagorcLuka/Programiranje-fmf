@@ -2,9 +2,9 @@ import math
 
 
 def skodelica():
-    "Preveri če dano število, možna višina skodelice"
+    "Preveri, če je dano število, možna višina skodelice"
     D = int(input())                                # a**2 - b**2 = D  =>  (a-b)(a+b) = D
-    for a_minus_b in range(1, int(math.sqrt(D)+1)): # gremo skozi možne faktorje števila D od 1 do korena št. (vključno)
+    for a_minus_b in range(1, int(math.sqrt(D)+1)): # gremo skozi možne faktorje števila D od 1 do vključno korena št. 
         
         if D % a_minus_b == 0:                  #preverimo če lahko delimo s faktorjem št. D 
             a_plus_b = D // a_minus_b           #izračunamo (a+b)
@@ -13,7 +13,7 @@ def skodelica():
                 b = (a_plus_b - a_minus_b) // 2 #izračunamo b
                
                 return f"{b} {a}"
-    return "impossible"                         #če nismo najdli nobene možne kombinacije izpišemo "impossible"
+    return "impossible"                         #če nismo našli nobene možne kombinacije izpišemo "impossible"
 
 print(skodelica())
     
